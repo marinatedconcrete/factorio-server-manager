@@ -11,6 +11,7 @@ EXPOSE 80/tcp 34197/udp
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
+        ca-certificates \
         curl \
         jq \
         tar \
