@@ -1,0 +1,23 @@
+---
+name: Run Tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1.0.13
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # renovate: datasource=docker depName=earthly/earthly
+          version: "0.8.13"
+      - uses: actions/checkout@v4.1.6
+      - name: Run tests
+        run: |
+          earthly +test
+        env:
+          EARTHLY_CI: true
