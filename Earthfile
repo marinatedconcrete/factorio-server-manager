@@ -15,6 +15,15 @@ go-test:
     ENV FSM_MODPAKC_DIR dev_pack
     RUN go test ./... -v -test.short
 
+hadolint:
+    # renovate: datasource=docker depName=hadolint/hadolint versioning=docker
+    ARG HADOLINT_VERSION=2.12.0-alpine
+    FROM hadolint/hadolint:$HADOLINT_VERSION
+    WORKDIR /images
+    COPY .hadolint.yaml .
+    COPY docker/Dockerfile* .
+    RUN find . -name "Dockerfile*" -print | xargs -r -n1 hadolint
+
 renovate-validate:
     # renovate: datasource=docker depName=renovate/renovate versioning=docker
     ARG RENOVATE_VERSION=38
@@ -32,6 +41,7 @@ shellcheck-lint:
     RUN find . -name "*.sh" -print | xargs -r -n1 shellcheck
 
 lint:
+    BUILD +hadolint
     BUILD +shellcheck-lint
 
 test:

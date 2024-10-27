@@ -1,0 +1,6 @@
+---
+ignored:
+  # warning: Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`
+  - DL3008
+  # warning: Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`
+  - DL3018
