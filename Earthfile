@@ -10,7 +10,7 @@ build-image:
     FROM DOCKERFILE \
         -f docker/Dockerfile \
         docker
-    SAVE IMAGE factorio-server-manager:$TAG
+    SAVE IMAGE --push factorio-server-manager:$TAG
 
 lint:
     BUILD +hadolint

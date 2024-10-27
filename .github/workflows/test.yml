@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: earthly/actions-setup@v1.0.13
@@ -16,11 +19,23 @@ jobs:
           # renovate: datasource=docker depName=earthly/earthly
           version: "0.8.15"
       - uses: actions/checkout@v4.1.6
+      - name: Login to GitHub Container Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: tags
+        run: echo "TAG=$BRANCH" | sed -e 's/=v/=/' -e 's/\//_/' >> "$GITHUB_ENV"
+        env:
+          BRANCH: ${{ github.ref_type == 'tag' && github.ref_name || github.event_name != 'pull_request' && 'latest' || format('pr-{0}', github.head_ref) }}
       - name: Build container image
         run: |
-          earthly +build-image
+          earthly +build-image --TAG=$TAG
         env:
           EARTHLY_CI: true
+          EARTHLY_PUSH: ${{ github.event_name != 'pull_request' }}
   lint:
     runs-on: ubuntu-latest
     steps:
