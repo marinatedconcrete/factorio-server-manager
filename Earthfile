@@ -1,6 +1,20 @@
 VERSION 0.8
 FROM alpine
 
+go-test:
+    # renovate: datasource=docker depName=golang
+    ARG GOLANG_VERSION=1.18
+    FROM golang:$GOLANG_VERSION
+    WORKDIR /usr/src/app
+    COPY conf.json.example conf.json
+    COPY --dir src .
+    WORKDIR src
+    # Setup Tests to look for things in the right place...
+    ENV FSM_CONF ../../conf.json
+    ENV FSM_DIR ../
+    ENV FSM_MODPAKC_DIR dev_pack
+    RUN go test ./... -v -test.short
+
 renovate-validate:
     # renovate: datasource=docker depName=renovate/renovate versioning=docker
     ARG RENOVATE_VERSION=37
@@ -21,4 +35,5 @@ lint:
     BUILD +shellcheck-lint
 
 test:
+    BUILD +go-test
     BUILD +renovate-validate
