@@ -14,7 +14,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # renovate: datasource=docker depName=earthly/earthly
-          version: "0.8.13"
+          version: "0.8.15"
       - uses: actions/checkout@v4.1.6
       - name: Run lint
         run: |
@@ -28,7 +28,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # renovate: datasource=docker depName=earthly/earthly
-          version: "0.8.13"
+          version: "0.8.15"
       - uses: actions/checkout@v4.1.6
       - name: Run tests
         run: |
