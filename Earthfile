@@ -1,6 +1,29 @@
 VERSION 0.8
 FROM alpine
 
+###############################################################################
+# Primary Targets
+###############################################################################
+
+build-image:
+    ARG TAG=dev
+    FROM DOCKERFILE \
+        -f docker/Dockerfile \
+        docker
+    SAVE IMAGE factorio-server-manager:$TAG
+
+lint:
+    BUILD +hadolint
+    BUILD +shellcheck-lint
+
+test:
+    BUILD +go-test
+    BUILD +renovate-validate
+
+###############################################################################
+# Individual Targets
+###############################################################################
+
 go-test:
     # renovate: datasource=docker depName=golang
     ARG GOLANG_VERSION=1.18
@@ -39,11 +62,3 @@ shellcheck-lint:
     WORKDIR /mnt
     COPY . .
     RUN find . -name "*.sh" -print | xargs -r -n1 shellcheck
-
-lint:
-    BUILD +hadolint
-    BUILD +shellcheck-lint
-
-test:
-    BUILD +go-test
-    BUILD +renovate-validate

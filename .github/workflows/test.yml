@@ -7,6 +7,20 @@ on:
   pull_request:
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1.0.13
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # renovate: datasource=docker depName=earthly/earthly
+          version: "0.8.15"
+      - uses: actions/checkout@v4.1.6
+      - name: Build container image
+        run: |
+          earthly +build-image
+        env:
+          EARTHLY_CI: true
   lint:
     runs-on: ubuntu-latest
     steps:
