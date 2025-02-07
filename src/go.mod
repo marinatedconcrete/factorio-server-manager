@@ -7,7 +7,7 @@ require (
 	github.com/glebarez/sqlite v1.10.0
 	github.com/go-ini/ini v1.67.0
 	github.com/gorilla/mux v1.8.0
-	github.com/gorilla/securecookie v1.1.1
+	github.com/gorilla/securecookie v1.1.2
 	github.com/gorilla/sessions v1.2.1
 	github.com/gorilla/websocket v1.5.0
 	github.com/hpcloud/tail v1.0.0
