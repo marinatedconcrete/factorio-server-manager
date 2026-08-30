@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/OpenFactorioServerManager/rcon v0.0.0-20120923215419-8fbb8268b60a
 	github.com/glebarez/sqlite v1.10.0
-	github.com/go-ini/ini v1.67.0
+	github.com/go-ini/ini v1.67.3
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/securecookie v1.1.1
 	github.com/gorilla/sessions v1.2.1
